@@ -27,5 +27,32 @@ public final class LineNumbers {
      * @throws IOException if something very bad happens to the file system while operating
      */
     public static void addLineNumbersToTextFile(final File file) throws IOException {
+        /* 
+        readAllLines() returns a List of strings, every elemented represents a line,
+        the separator being '\n'
+        */
+        final var lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
+
+        /*
+        This list will contain each line, but numbered
+        */
+        final var numberedLines = new ArrayList<String>();
+
+        /*
+        Self explicative
+        */
+        for (int i = 0; i < lines.size(); i++){
+            numberedLines.add((i + 1) + " - " + lines.get(i));
+        }
+
+        /*
+        Creates a new file
+        */
+        final File newFile = new File(file.getParent(), "numberedLines_" + file.getName());
+
+        /*
+        Writes the new numbered lines on the file
+        */
+        Files.write(newFile.toPath(), numberedLines, StandardCharsets.UTF_8);
     }
 }
